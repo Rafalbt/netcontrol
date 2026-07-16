@@ -130,7 +130,13 @@ function App() {
       if (!isConnected) {
         setHistoryData(null);
         setDetectedProcesses([]);
+        return;
       }
+      // The service pushes `rules` right after the pipe handshake, but that
+      // can happen before this webview subscribed — re-request state so a
+      // late-discovered connection is never missing data.
+      sendCommand({ type: "getRules" });
+      sendCommand({ type: "getSettings" });
     }
 
     subscribeBackend(handleMessage, handleStatus).then((fn) => {

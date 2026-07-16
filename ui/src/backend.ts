@@ -61,6 +61,15 @@ export async function subscribeBackend(
   });
   const unlistenStatus = await listen<boolean>("backend-status", (event) => onStatus(event.payload));
 
+  // The Rust bridge usually connects to the pipe before this webview code
+  // runs, so the initial backend-status event (and the service's first
+  // `rules` push) can be missed entirely — catch up on the current state.
+  try {
+    onStatus(await invoke<boolean>("backend_connected"));
+  } catch {
+    // Old bridge build without the command — events alone have to do.
+  }
+
   return () => {
     unlistenMessage();
     unlistenStatus();
