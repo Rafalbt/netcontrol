@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Przepustnica MSI (Etap 4 planu): instaluje UI (Tauri) + usluge Windows
+  w jednym pakiecie. Build: installer\build-installer.ps1 (wolane recznie
+  albo z przyszlego CI). Wymaga wczesniejszego zbudowania:
+    - ui\src-tauri\target\release\ui.exe  (npm run tauri build - -no-bundle; instalowany jako Przepustnica.exe)
+    - dist\service\  (dotnet publish -c Release -o dist\service)
+
+  UpgradeCode jest staly - nie zmieniac, inaczej upgrade'y przestana dzialac.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Przepustnica"
+           Manufacturer="Przepustnica"
+           Version="0.1.0"
+           UpgradeCode="7B6E45F7-F69D-4ED1-BFFC-3EC2D918678C"
+           Scope="perMachine"
+           Compressed="yes">
+
+    <MajorUpgrade DowngradeErrorMessage="Nowsza wersja Przepustnicy jest juz zainstalowana." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="AppIcon" SourceFile="..\ui\src-tauri\icons\icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="Przepustnica">
+        <Directory Id="ServiceFolder" Name="service" />
+      </Directory>
+    </StandardDirectory>
+
+    <!-- UI (Tauri, pojedynczy exe; frontend osadzony w binarce) -->
+    <Component Id="UiExe" Directory="INSTALLFOLDER">
+      <File Id="PrzepustnicaExe"
+            Source="..\ui\src-tauri\target\release\ui.exe"
+            Name="Przepustnica.exe"
+            KeyPath="yes">
+        <Shortcut Id="StartMenuShortcut"
+                  Directory="ProgramMenuFolder"
+                  Name="Przepustnica"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="AppIcon"
+                  Advertise="yes" />
+      </File>
+    </Component>
+
+    <!-- Usluga: exe + rejestracja. Stop/Remove "both" przejmuje takze usluge
+         zarejestrowana wczesniej recznie przez install-service.ps1. -->
+    <Component Id="ServiceExe" Directory="ServiceFolder">
+      <File Id="ServiceExeFile"
+            Source="..\dist\service\PrzepustnicaService.exe"
+            KeyPath="yes" />
+      <ServiceInstall Id="PrzepustnicaService"
+                      Name="Przepustnica"
+                      DisplayName="Przepustnica"
+                      Description="Limity przepustowosci sieci per aplikacja (monitoring ETW + WinDivert)."
+                      Start="auto"
+                      Type="ownProcess"
+                      Account="LocalSystem"
+                      ErrorControl="normal" />
+      <ServiceControl Id="PrzepustnicaServiceControl"
+                      Name="Przepustnica"
+                      Stop="both"
+                      Remove="both"
+                      Start="install"
+                      Wait="yes" />
+    </Component>
+
+    <!-- Zaleznosci uslugi (self-contained dotnet publish, w tym podkatalog
+         amd64\ z KernelTraceControl.dll wymaganym przez ETW). Exe uslugi jest
+         zadeklarowany jawnie wyzej (ServiceInstall), PDB zbedne. -->
+    <Files Include="..\dist\service\**" Directory="ServiceFolder">
+      <Exclude Files="..\dist\service\PrzepustnicaService.exe" />
+      <Exclude Files="..\dist\service\*.pdb" />
+    </Files>
+
+  </Package>
+</Wix>

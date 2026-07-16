@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { opacity: 0.75; }
+  .canvas-root { font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  @keyframes barPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.72; } }
+</style>
+</helmet>
+
+<section class="canvas-root" style="padding: 72px 72px 40px; background: #e7e5f0; display: flex; flex-direction: column; gap: 8px; min-width: max-content;">
+  <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 28px; max-width: 780px;">
+    <div style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #7d78a0;">Tura 2 — rozwinięcie kierunku 1b</div>
+    <h1 style="margin: 0; font-family: 'Space Grotesk'; font-size: 30px; font-weight: 700; color: #201d33;">Chłodny dashboard — pełny przepływ</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #5d5878;">Cztery ekrany: lista aplikacji (<a href="#2a">2a</a>), dodawanie aplikacji z limitem (<a href="#2b">2b</a>), monitor na żywo (<a href="#2c">2c</a>) i historia (<a href="#2d">2d</a>). Ten sam styl, nawigacja boczna wspólna dla wszystkich ekranów.</p>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start;">
+
+    <!-- ===== 2a — Aplikacje ===== -->
+    <div id="2a" style="display: flex; flex-direction: column; gap: 16px; width: 960px;">
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 700; color: #fff; background: oklch(0.55 0.18 275); padding: 4px 11px; border-radius: 999px;">2a</span>
+        <span style="font-family: 'Space Grotesk'; font-size: 16px; font-weight: 600; color: #201d33;">Aplikacje</span>
+        <span style="font-size: 13px; color: #8a86a0;">ekran główny — lista z limitami i statusem</span>
+      </div>
+      <div style="border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -24px rgba(30,25,60,0.4), 0 0 0 1px rgba(0,0,0,0.04); display: grid; grid-template-columns: 220px 1fr;">
+        <div style="background: oklch(0.28 0.06 275); padding: 18px 16px; display: flex; flex-direction: column; gap: 22px;">
+          <span style="display: flex; gap: 6px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #ff5f57;"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: #febc2e;"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: #28c840;"></span></span>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 0 4px;"><span style="width: 30px; height: 30px; border-radius: 9px; background: oklch(0.7 0.16 275); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700;">P</span><span style="font-family: 'Space Grotesk'; font-weight: 600; font-size: 15px; color: #fff;">Przepustnica</span></div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; background: oklch(0.7 0.16 275 / 0.28); color: #fff; font-weight: 600; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:oklch(0.7 0.16 275);"></span>Aplikacje</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Monitor na żywo</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Historia</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Ustawienia</div>
+          </div>
+          <div style="margin-top: auto; background: oklch(0.7 0.16 275 / 0.18); border: 1px solid oklch(0.7 0.16 275 / 0.3); border-radius: 12px; padding: 14px;"><div style="font-size: 12px; color: #cfc9ea; font-weight: 600;">Wykorzystanie łącza</div><div style="font-family: 'Space Grotesk'; font-size: 22px; font-weight: 700; color: #fff; margin: 6px 0 8px;">39 / 100 Mb/s</div><div style="height: 7px; border-radius: 999px; background: rgba(255,255,255,0.14); overflow: hidden;"><div style="height:100%;width:39%;background: oklch(0.7 0.16 275);border-radius:999px;"></div></div></div>
+        </div>
+        <div style="padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+            <div style="display: flex; flex-direction: column; gap: 3px;"><h2 style="margin: 0; font-family: 'Space Grotesk'; font-size: 22px; font-weight: 700; color: #201d33;">Aplikacje</h2><span style="font-size: 13px; color: #7d7898;">Zarządzaj limitami prędkości i godzinami działania</span></div>
+            <button style="display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer; background: oklch(0.55 0.18 275); color: #fff; font-family: 'Manrope'; font-weight: 700; font-size: 14px; padding: 11px 18px; border-radius: 11px;"><span style="font-size:17px;line-height:1;">+</span> Dodaj aplikację</button>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;">
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 14px 16px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Aplikacje</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700;color:#201d33;margin-top:3px;">5</div></div>
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 14px 16px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Teraz</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700;color:#201d33;margin-top:3px;">38,8<span style="font-size:12px;color:#a29dbc;"> Mb/s</span></div></div>
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 14px 16px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Ograniczane</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700;color:oklch(0.55 0.18 275);margin-top:3px;">2</div></div>
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 14px 16px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Dziś</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700;color:#201d33;margin-top:3px;">14,2<span style="font-size:12px;color:#a29dbc;"> GB</span></div></div>
+          </div>
+          <div style="border: 1px solid #ece9f4; border-radius: 14px; overflow: hidden;">
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr 0.5fr; gap: 12px; padding: 12px 18px; background: #f7f5fb; font-size: 12px; font-weight: 700; color: #7d7898; text-transform: uppercase; letter-spacing: 0.04em;"><span>Aplikacja</span><span>Limit</span><span>Godziny</span><span>Teraz</span><span>Status</span><span></span></div>
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr 0.5fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7;"><span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.7 0.13 250);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">Pg</span><span style="font-weight:600;color:#201d33;">Przeglądarka</span></span><span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">25 Mb/s</span><span style="font-size:13px;color:#5b5675;">cała doba</span><span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:#3a3550;">12,3 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:49%;background:oklch(0.7 0.13 250);border-radius:999px;"></span></span></span><span style="font-size:12px;font-weight:700;color:oklch(0.5 0.13 150);">● Aktywna</span><span style="font-size:16px;color:#c3bed6;text-align:right;">⋯</span></div>
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr 0.5fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7; background: oklch(0.55 0.18 275 / 0.05);"><span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.68 0.16 30);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">St</span><span style="font-weight:600;color:#201d33;">Streaming wideo</span></span><span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">15 Mb/s</span><span style="font-size:13px;color:#5b5675;">18–23</span><span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:oklch(0.5 0.16 30);font-weight:600;">15,0 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:100%;background:oklch(0.68 0.16 30);border-radius:999px;animation:barPulse 1.8s ease-in-out infinite;"></span></span></span><span style="font-size:12px;font-weight:700;color:oklch(0.55 0.16 30);">● Ograniczana</span><span style="font-size:16px;color:#c3bed6;text-align:right;">⋯</span></div>
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr 0.5fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7;"><span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.62 0.16 300);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">Gr</span><span style="font-weight:600;color:#201d33;">Gra online</span></span><span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">10 Mb/s</span><span style="font-size:13px;color:#5b5675;">16–22</span><span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:#3a3550;">8,1 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:81%;background:oklch(0.62 0.16 300);border-radius:999px;"></span></span></span><span style="font-size:12px;font-weight:700;color:oklch(0.5 0.13 150);">● Aktywna</span><span style="font-size:16px;color:#c3bed6;text-align:right;">⋯</span></div>
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr 0.5fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7;"><span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.62 0.02 260);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">Ck</span><span style="font-weight:600;color:#201d33;">Klient chmury</span></span><span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">5 Mb/s</span><span style="font-size:13px;color:#5b5675;">09–17</span><span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:#3a3550;">3,4 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:68%;background:oklch(0.62 0.02 260);border-radius:999px;"></span></span></span><span style="font-size:12px;font-weight:700;color:oklch(0.5 0.13 150);">● Aktywna</span><span style="font-size:16px;color:#c3bed6;text-align:right;">⋯</span></div>
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr 0.5fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7; opacity: 0.6;"><span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:#b8b3c9;display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">Ak</span><span style="font-weight:600;color:#201d33;">Aktualizacje systemu</span></span><span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">2 Mb/s</span><span style="font-size:13px;color:#5b5675;">02–06</span><span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:#8b86a3;">0,0 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:0%;background:#b8b3c9;border-radius:999px;"></span></span></span><span style="font-size:12px;font-weight:700;color:#8b86a3;">● Uśpiona</span><span style="font-size:16px;color:#c3bed6;text-align:right;">⋯</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 2b — Dodaj aplikację (modal) ===== -->
+    <div id="2b" style="display: flex; flex-direction: column; gap: 16px; width: 620px;">
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 700; color: #fff; background: oklch(0.55 0.18 275); padding: 4px 11px; border-radius: 999px;">2b</span>
+        <span style="font-family: 'Space Grotesk'; font-size: 16px; font-weight: 600; color: #201d33;">Dodaj aplikację</span>
+        <span style="font-size: 13px; color: #8a86a0;">okno dialogowe — wybór aplikacji + ustawienie limitu</span>
+      </div>
+      <div style="border-radius: 18px; overflow: hidden; background: oklch(0.28 0.06 275 / 0.14); padding: 40px; box-shadow: 0 0 0 1px rgba(0,0,0,0.04);">
+        <div style="border-radius: 16px; background: #fff; box-shadow: 0 30px 60px -20px rgba(30,25,60,0.45); overflow: hidden;">
+          <div style="padding: 22px 26px; border-bottom: 1px solid #f1eef7; display: flex; align-items: center; justify-content: space-between;">
+            <h3 style="margin: 0; font-family: 'Space Grotesk'; font-size: 19px; font-weight: 700; color: #201d33;">Nowy limit aplikacji</h3>
+            <span style="width: 28px; height: 28px; border-radius: 8px; background: #f2f0f9; display: grid; place-items: center; color: #8a86a0; font-size: 15px;">✕</span>
+          </div>
+          <div style="padding: 24px 26px; display: flex; flex-direction: column; gap: 22px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label style="font-size: 13px; font-weight: 700; color: #4b4666;">Aplikacja</label>
+              <div style="display: flex; align-items: center; gap: 12px; border: 1.5px solid oklch(0.55 0.18 275 / 0.4); border-radius: 11px; padding: 11px 14px; background: oklch(0.55 0.18 275 / 0.05);"><span style="width:32px;height:32px;border-radius:8px;background:oklch(0.62 0.16 300);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:12px;">Gr</span><span style="font-weight:600;color:#201d33;flex:1;">Gra online</span><span style="font-size:13px;color:#8a86a0;">zmień ▾</span></div>
+              <span style="font-size: 12px; color: #9591ac;">Wykryto 12 uruchomionych aplikacji · możesz też wskazać plik .exe</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <label style="font-size: 13px; font-weight: 700; color: #4b4666;">Limit prędkości pobierania</label>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="flex:1; height: 8px; border-radius: 999px; background: #eeebf6; position: relative;"><div style="position:absolute;left:0;top:0;height:100%;width:40%;background:oklch(0.55 0.18 275);border-radius:999px;"></div><div style="position:absolute;left:40%;top:50%;transform:translate(-50%,-50%);width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.25),0 0 0 2px oklch(0.55 0.18 275);"></div></div>
+                <div style="display:flex;align-items:center;gap:6px;border:1px solid #e6e2f0;border-radius:9px;padding:7px 12px;"><span style="font-family:'Space Grotesk';font-weight:700;font-size:16px;color:#201d33;">10</span><span style="font-size:13px;color:#8a86a0;">Mb/s</span></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#a29dbc;"><span>0,5 Mb/s</span><span>bez limitu</span></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <label style="font-size: 13px; font-weight: 700; color: #4b4666;">Godziny działania</label>
+              <div style="display: flex; gap: 10px;">
+                <label style="flex:1;display:flex;align-items:center;gap:9px;border:1px solid #e6e2f0;border-radius:10px;padding:11px 13px;font-size:13.5px;color:#5b5675;"><span style="width:16px;height:16px;border-radius:50%;border:2px solid #cdc7de;"></span>Cała doba</label>
+                <label style="flex:1;display:flex;align-items:center;gap:9px;border:1.5px solid oklch(0.55 0.18 275);border-radius:10px;padding:11px 13px;font-size:13.5px;color:#201d33;font-weight:600;background:oklch(0.55 0.18 275 / 0.06);"><span style="width:16px;height:16px;border-radius:50%;border:5px solid oklch(0.55 0.18 275);"></span>Wybrane godziny</label>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:2px;">
+                <div style="display:flex;align-items:center;gap:6px;border:1px solid #e6e2f0;border-radius:9px;padding:8px 13px;"><span style="font-family:'Space Grotesk';font-weight:700;color:#201d33;">16:00</span></div>
+                <span style="color:#a29dbc;">→</span>
+                <div style="display:flex;align-items:center;gap:6px;border:1px solid #e6e2f0;border-radius:9px;padding:8px 13px;"><span style="font-family:'Space Grotesk';font-weight:700;color:#201d33;">22:00</span></div>
+                <span style="font-size:12.5px;color:#9591ac;">poza tymi godzinami aplikacja jest wstrzymywana</span>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 18px 26px; border-top: 1px solid #f1eef7; display: flex; justify-content: flex-end; gap: 10px;">
+            <button style="border:1px solid #e0dcec;background:#fff;color:#5b5675;font-family:'Manrope';font-weight:600;font-size:14px;padding:10px 18px;border-radius:10px;cursor:pointer;">Anuluj</button>
+            <button style="border:none;background:oklch(0.55 0.18 275);color:#fff;font-family:'Manrope';font-weight:700;font-size:14px;padding:10px 20px;border-radius:10px;cursor:pointer;">Zapisz limit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 2c — Monitor na żywo ===== -->
+    <div id="2c" style="display: flex; flex-direction: column; gap: 16px; width: 960px;">
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 700; color: #fff; background: oklch(0.55 0.18 275); padding: 4px 11px; border-radius: 999px;">2c</span>
+        <span style="font-family: 'Space Grotesk'; font-size: 16px; font-weight: 600; color: #201d33;">Monitor na żywo</span>
+        <span style="font-size: 13px; color: #8a86a0;">potwierdzenie, że limity faktycznie działają</span>
+      </div>
+      <div style="border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -24px rgba(30,25,60,0.4), 0 0 0 1px rgba(0,0,0,0.04); display: grid; grid-template-columns: 220px 1fr;">
+        <div style="background: oklch(0.28 0.06 275); padding: 18px 16px; display: flex; flex-direction: column; gap: 22px;">
+          <span style="display: flex; gap: 6px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #ff5f57;"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: #febc2e;"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: #28c840;"></span></span>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 0 4px;"><span style="width: 30px; height: 30px; border-radius: 9px; background: oklch(0.7 0.16 275); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700;">P</span><span style="font-family: 'Space Grotesk'; font-weight: 600; font-size: 15px; color: #fff;">Przepustnica</span></div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Aplikacje</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; background: oklch(0.7 0.16 275 / 0.28); color: #fff; font-weight: 600; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:oklch(0.7 0.16 275);"></span>Monitor na żywo</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Historia</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Ustawienia</div>
+          </div>
+          <div style="margin-top: auto; display: flex; align-items: center; gap: 8px; background: oklch(0.55 0.13 150 / 0.2); border: 1px solid oklch(0.6 0.13 150 / 0.4); border-radius: 12px; padding: 12px 14px;"><span style="width:9px;height:9px;border-radius:50%;background:oklch(0.72 0.16 150);animation:barPulse 1.4s ease-in-out infinite;"></span><span style="font-size:12.5px;color:#d3ecdd;font-weight:600;">Monitorowanie aktywne</span></div>
+        </div>
+        <div style="padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;"><div style="display:flex;flex-direction:column;gap:3px;"><h2 style="margin: 0; font-family: 'Space Grotesk'; font-size: 22px; font-weight: 700; color: #201d33;">Monitor na żywo</h2><span style="font-size: 13px; color: #7d7898;">Ostatnie 60 sekund · odświeżanie co 1 s</span></div><div style="display:flex;gap:6px;background:#f2f0f9;padding:4px;border-radius:9px;font-size:12.5px;font-weight:600;"><span style="padding:6px 12px;border-radius:6px;background:#fff;color:#201d33;box-shadow:0 1px 2px rgba(0,0,0,0.06);">60 s</span><span style="padding:6px 12px;color:#8a86a0;">15 min</span><span style="padding:6px 12px;color:#8a86a0;">1 godz</span></div></div>
+          <div style="border: 1px solid #ece9f4; border-radius: 14px; padding: 18px 18px 12px;">
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;"><span style="font-family:'Space Grotesk';font-size:30px;font-weight:700;color:#201d33;">38,8</span><span style="font-size:14px;color:#8a86a0;">Mb/s łącznie</span></div>
+            <svg viewBox="0 0 900 220" style="width:100%;height:220px;display:block;" preserveAspectRatio="none">
+              <line x1="0" y1="40" x2="900" y2="40" stroke="#f1eef7" stroke-width="1"></line>
+              <line x1="0" y1="90" x2="900" y2="90" stroke="#f1eef7" stroke-width="1"></line>
+              <line x1="0" y1="140" x2="900" y2="140" stroke="#f1eef7" stroke-width="1"></line>
+              <line x1="0" y1="190" x2="900" y2="190" stroke="#f1eef7" stroke-width="1"></line>
+              <polyline points="0,150 90,145 180,138 270,142 360,135 450,140 540,133 630,138 720,136 810,140 900,138" fill="none" stroke="oklch(0.7 0.13 250)" stroke-width="2.5"></polyline>
+              <line x1="0" y1="70" x2="900" y2="70" stroke="oklch(0.68 0.16 30)" stroke-width="1.5" stroke-dasharray="6 5"></line>
+              <polyline points="0,72 90,71 180,70 270,71 360,70 450,71 540,70 630,71 720,70 810,71 900,70" fill="none" stroke="oklch(0.68 0.16 30)" stroke-width="2.5"></polyline>
+              <polyline points="0,175 90,172 180,178 270,170 360,176 450,169 540,174 630,171 720,177 810,172 900,175" fill="none" stroke="oklch(0.62 0.16 300)" stroke-width="2.5"></polyline>
+            </svg>
+            <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:#6b6685;padding-top:6px;border-top:1px solid #f1eef7;margin-top:4px;padding-top:12px;">
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:14px;height:3px;border-radius:2px;background:oklch(0.7 0.13 250);"></span>Przeglądarka 12,3 Mb/s</span>
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:14px;height:3px;border-radius:2px;background:oklch(0.68 0.16 30);"></span>Streaming 15,0 Mb/s <span style="color:oklch(0.55 0.16 30);font-weight:700;">(przy limicie)</span></span>
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:14px;height:3px;border-radius:2px;background:oklch(0.62 0.16 300);"></span>Gra 8,1 Mb/s</span>
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:14px;height:0;border-top:2px dashed oklch(0.68 0.16 30);"></span>limit Streamingu</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="border:1px solid oklch(0.68 0.16 30 / 0.3);background:oklch(0.68 0.16 30 / 0.05);border-radius:13px;padding:16px 18px;display:flex;gap:13px;align-items:flex-start;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.68 0.16 30);display:grid;place-items:center;color:#fff;font-size:16px;flex-shrink:0;">⚑</span><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:700;color:#201d33;font-size:14px;">Streaming wideo — limit egzekwowany</span><span style="font-size:12.5px;color:#6b6685;line-height:1.5;">Przez ostatnie 3 min utrzymywany na 15,0 Mb/s. Bez limitu pobierałby ok. 42 Mb/s.</span></div></div>
+            <div style="border:1px solid #ece9f4;border-radius:13px;padding:16px 18px;display:flex;gap:13px;align-items:flex-start;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.6 0.13 150);display:grid;place-items:center;color:#fff;font-size:16px;flex-shrink:0;">✓</span><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:700;color:#201d33;font-size:14px;">Pozostałe aplikacje w normie</span><span style="font-size:12.5px;color:#6b6685;line-height:1.5;">Przeglądarka i gra poniżej swoich limitów. Zaoszczędzono 27 Mb/s przepustowości.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 2d — Historia ===== -->
+    <div id="2d" style="display: flex; flex-direction: column; gap: 16px; width: 960px;">
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 700; color: #fff; background: oklch(0.55 0.18 275); padding: 4px 11px; border-radius: 999px;">2d</span>
+        <span style="font-family: 'Space Grotesk'; font-size: 16px; font-weight: 600; color: #201d33;">Historia</span>
+        <span style="font-size: 13px; color: #8a86a0;">statystyki transferu i egzekwowania limitów</span>
+      </div>
+      <div style="border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -24px rgba(30,25,60,0.4), 0 0 0 1px rgba(0,0,0,0.04); display: grid; grid-template-columns: 220px 1fr;">
+        <div style="background: oklch(0.28 0.06 275); padding: 18px 16px; display: flex; flex-direction: column; gap: 22px;">
+          <span style="display: flex; gap: 6px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #ff5f57;"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: #febc2e;"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: #28c840;"></span></span>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 0 4px;"><span style="width: 30px; height: 30px; border-radius: 9px; background: oklch(0.7 0.16 275); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700;">P</span><span style="font-family: 'Space Grotesk'; font-weight: 600; font-size: 15px; color: #fff;">Przepustnica</span></div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Aplikacje</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Monitor na żywo</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; background: oklch(0.7 0.16 275 / 0.28); color: #fff; font-weight: 600; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:oklch(0.7 0.16 275);"></span>Historia</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;"></span>Ustawienia</div>
+          </div>
+        </div>
+        <div style="padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;"><div style="display:flex;flex-direction:column;gap:3px;"><h2 style="margin: 0; font-family: 'Space Grotesk'; font-size: 22px; font-weight: 700; color: #201d33;">Historia</h2><span style="font-size: 13px; color: #7d7898;">Podsumowanie z ostatnich 7 dni</span></div><div style="display:flex;gap:6px;background:#f2f0f9;padding:4px;border-radius:9px;font-size:12.5px;font-weight:600;"><span style="padding:6px 12px;color:#8a86a0;">Dzień</span><span style="padding:6px 12px;border-radius:6px;background:#fff;color:#201d33;box-shadow:0 1px 2px rgba(0,0,0,0.06);">Tydzień</span><span style="padding:6px 12px;color:#8a86a0;">Miesiąc</span></div></div>
+          <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;">
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 16px 18px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Pobrano łącznie</div><div style="font-family:'Space Grotesk';font-size:24px;font-weight:700;color:#201d33;margin-top:3px;">96,4 <span style="font-size:13px;color:#a29dbc;">GB</span></div></div>
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 16px 18px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Zaoszczędzono limitami</div><div style="font-family:'Space Grotesk';font-size:24px;font-weight:700;color:oklch(0.5 0.13 150);margin-top:3px;">31,8 <span style="font-size:13px;opacity:0.7;">GB</span></div></div>
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 16px 18px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Zdarzeń ograniczenia</div><div style="font-family:'Space Grotesk';font-size:24px;font-weight:700;color:oklch(0.55 0.18 275);margin-top:3px;">214</div></div>
+          </div>
+          <div style="border: 1px solid #ece9f4; border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-family:'Space Grotesk';font-weight:600;font-size:15px;color:#201d33;">Transfer dzienny wg aplikacji</span><span style="font-size:12.5px;color:#8a86a0;">GB / dzień</span></div>
+            <div style="display: flex; align-items: flex-end; gap: 18px; height: 150px;">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;"><div style="width:100%;max-width:46px;display:flex;flex-direction:column;border-radius:6px 6px 0 0;overflow:hidden;height:52%;"><div style="background:oklch(0.68 0.16 30);flex:2;"></div><div style="background:oklch(0.7 0.13 250);flex:3;"></div><div style="background:oklch(0.62 0.16 300);flex:1;"></div></div><span style="font-size:11px;color:#a29dbc;">Pn</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;"><div style="width:100%;max-width:46px;display:flex;flex-direction:column;border-radius:6px 6px 0 0;overflow:hidden;height:64%;"><div style="background:oklch(0.68 0.16 30);flex:3;"></div><div style="background:oklch(0.7 0.13 250);flex:3;"></div><div style="background:oklch(0.62 0.16 300);flex:1;"></div></div><span style="font-size:11px;color:#a29dbc;">Wt</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;"><div style="width:100%;max-width:46px;display:flex;flex-direction:column;border-radius:6px 6px 0 0;overflow:hidden;height:48%;"><div style="background:oklch(0.68 0.16 30);flex:1;"></div><div style="background:oklch(0.7 0.13 250);flex:3;"></div><div style="background:oklch(0.62 0.16 300);flex:1;"></div></div><span style="font-size:11px;color:#a29dbc;">Śr</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;"><div style="width:100%;max-width:46px;display:flex;flex-direction:column;border-radius:6px 6px 0 0;overflow:hidden;height:78%;"><div style="background:oklch(0.68 0.16 30);flex:4;"></div><div style="background:oklch(0.7 0.13 250);flex:3;"></div><div style="background:oklch(0.62 0.16 300);flex:2;"></div></div><span style="font-size:11px;color:#a29dbc;">Cz</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;"><div style="width:100%;max-width:46px;display:flex;flex-direction:column;border-radius:6px 6px 0 0;overflow:hidden;height:92%;"><div style="background:oklch(0.68 0.16 30);flex:5;"></div><div style="background:oklch(0.7 0.13 250);flex:3;"></div><div style="background:oklch(0.62 0.16 300);flex:2;"></div></div><span style="font-size:11px;color:#a29dbc;">Pt</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;"><div style="width:100%;max-width:46px;display:flex;flex-direction:column;border-radius:6px 6px 0 0;overflow:hidden;height:100%;"><div style="background:oklch(0.68 0.16 30);flex:6;"></div><div style="background:oklch(0.7 0.13 250);flex:3;"></div><div style="background:oklch(0.62 0.16 300);flex:2;"></div></div><span style="font-size:11px;color:#a29dbc;">Sb</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;"><div style="width:100%;max-width:46px;display:flex;flex-direction:column;border-radius:6px 6px 0 0;overflow:hidden;height:70%;"><div style="background:oklch(0.68 0.16 30);flex:4;"></div><div style="background:oklch(0.7 0.13 250);flex:3;"></div><div style="background:oklch(0.62 0.16 300);flex:1;"></div></div><span style="font-size:11px;color:#a29dbc;">Nd</span></div>
+            </div>
+            <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:#6b6685;padding-top:12px;border-top:1px solid #f1eef7;">
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:oklch(0.68 0.16 30);"></span>Streaming</span>
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:oklch(0.7 0.13 250);"></span>Przeglądarka</span>
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:oklch(0.62 0.16 300);"></span>Gra</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="canvas-root" style="padding: 72px 72px 96px; background: #eceaf2; display: flex; flex-direction: column; gap: 8px; min-width: max-content;">
+  <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 28px; max-width: 760px;">
+    <div style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8a86a0;">Tura 1 — kierunki wizualne</div>
+    <h1 style="margin: 0; font-family: 'Space Grotesk'; font-size: 30px; font-weight: 700; color: #23202e;">Przepustnica — limity sieci dla aplikacji</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #605c72;">Aplikacja desktopowa: dodajesz aplikację, ustawiasz limit prędkości i godziny działania, a monitor na żywo pokazuje zużycie każdej aplikacji względem jej limitu. Trzy kierunki do oceny — odnoś się do nich w czacie po numerach (<a href="#1a">1a</a>, <a href="#1b">1b</a>, <a href="#1c">1c</a>).</p>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start;">
+
+    <!-- ============ OPTION 1a — Ciepłe karty ============ -->
+    <div id="1a" style="display: flex; flex-direction: column; gap: 16px; width: 900px;">
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 700; color: #fff; background: oklch(0.68 0.16 30); padding: 4px 11px; border-radius: 999px;">1a</span>
+        <span style="font-family: 'Space Grotesk'; font-size: 16px; font-weight: 600; color: #23202e;">Ciepłe karty</span>
+        <span style="font-size: 13px; color: #8a86a0;">przyjazny, stos kart, jeden mocny akcent</span>
+      </div>
+
+      <!-- window -->
+      <div style="border-radius: 18px; overflow: hidden; background: #faf6f0; box-shadow: 0 30px 60px -24px rgba(60,40,20,0.35), 0 0 0 1px rgba(0,0,0,0.04);">
+        <!-- titlebar -->
+        <div style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #fff; border-bottom: 1px solid #f0e9df;">
+          <div style="display: flex; gap: 8px;">
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f57;"></span>
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #febc2e;"></span>
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: #28c840;"></span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 9px; margin-left: 6px;">
+            <span style="width: 22px; height: 22px; border-radius: 7px; background: oklch(0.68 0.16 30); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700; font-size: 13px;">P</span>
+            <span style="font-family: 'Space Grotesk'; font-weight: 600; font-size: 14px; color: #3a3448;">Przepustnica</span>
+          </div>
+          <div style="flex: 1;"></div>
+          <span style="font-size: 12.5px; color: #a49e93; font-family: 'Space Grotesk';">Łącze: 100 Mb/s</span>
+        </div>
+
+        <!-- body -->
+        <div style="padding: 24px 26px 28px; display: flex; flex-direction: column; gap: 20px;">
+          <!-- header row -->
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <h2 style="margin: 0; font-family: 'Space Grotesk'; font-size: 23px; font-weight: 700; color: #2a2436;">Twoje aplikacje</h2>
+              <span style="font-size: 13.5px; color: #8f8778;">5 aplikacji · 2 aktualnie ograniczane</span>
+            </div>
+            <button style="display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer; background: oklch(0.68 0.16 30); color: #fff; font-family: 'Manrope'; font-weight: 700; font-size: 14.5px; padding: 12px 20px; border-radius: 12px; box-shadow: 0 8px 18px -6px oklch(0.68 0.16 30 / 0.55);">
+              <span style="font-size: 18px; line-height: 1;">+</span> Dodaj aplikację
+            </button>
+          </div>
+
+          <!-- live total -->
+          <div style="display: flex; gap: 14px;">
+            <div style="flex: 1; background: #fff; border: 1px solid #f0e9df; border-radius: 14px; padding: 16px 18px;">
+              <div style="font-size: 12.5px; color: #8f8778; font-weight: 600;">Zużycie teraz</div>
+              <div style="font-family: 'Space Grotesk'; font-size: 26px; font-weight: 700; color: #2a2436; margin-top: 4px;">38,8 <span style="font-size: 15px; color: #a49e93;">Mb/s</span></div>
+            </div>
+            <div style="flex: 1; background: #fff; border: 1px solid #f0e9df; border-radius: 14px; padding: 16px 18px;">
+              <div style="font-size: 12.5px; color: #8f8778; font-weight: 600;">Dziś pobrano</div>
+              <div style="font-family: 'Space Grotesk'; font-size: 26px; font-weight: 700; color: #2a2436; margin-top: 4px;">14,2 <span style="font-size: 15px; color: #a49e93;">GB</span></div>
+            </div>
+            <div style="flex: 1; background: oklch(0.68 0.16 30 / 0.1); border: 1px solid oklch(0.68 0.16 30 / 0.2); border-radius: 14px; padding: 16px 18px;">
+              <div style="font-size: 12.5px; color: oklch(0.5 0.14 30); font-weight: 600;">Ograniczane</div>
+              <div style="font-family: 'Space Grotesk'; font-size: 26px; font-weight: 700; color: oklch(0.5 0.14 30); margin-top: 4px;">2 <span style="font-size: 15px; opacity: 0.7;">aplikacje</span></div>
+            </div>
+          </div>
+
+          <!-- app cards -->
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+
+            <!-- card: browser -->
+            <div style="background: #fff; border: 1px solid #f0e9df; border-radius: 16px; padding: 18px 20px; display: grid; grid-template-columns: 48px 1fr 210px; align-items: center; gap: 18px;">
+              <span style="width: 48px; height: 48px; border-radius: 13px; background: oklch(0.7 0.13 250); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700; font-size: 18px;">Pg</span>
+              <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-weight: 700; font-size: 16px; color: #2a2436;">Przeglądarka</span>
+                  <span style="font-size: 11.5px; font-weight: 700; color: oklch(0.55 0.13 150); background: oklch(0.55 0.13 150 / 0.12); padding: 3px 9px; border-radius: 999px;">● Aktywna</span>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-size: 12.5px; color: #6a6456; background: #f6f1e9; padding: 4px 10px; border-radius: 8px;">↕ Limit 25 Mb/s</span>
+                  <span style="font-size: 12.5px; color: #6a6456; background: #f6f1e9; padding: 4px 10px; border-radius: 8px;">🕑 Cała doba</span>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12.5px;"><span style="color: #8f8778;">teraz</span><span style="font-family: 'Space Grotesk'; font-weight: 700; color: #2a2436;">12,3 / 25 Mb/s</span></div>
+                <div style="height: 9px; border-radius: 999px; background: #f0e9df; overflow: hidden;"><div style="height: 100%; width: 49%; border-radius: 999px; background: oklch(0.7 0.13 250);"></div></div>
+              </div>
+            </div>
+
+            <!-- card: streaming (at limit) -->
+            <div style="background: #fff; border: 1px solid oklch(0.68 0.16 30 / 0.35); border-radius: 16px; padding: 18px 20px; display: grid; grid-template-columns: 48px 1fr 210px; align-items: center; gap: 18px;">
+              <span style="width: 48px; height: 48px; border-radius: 13px; background: oklch(0.68 0.16 30); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700; font-size: 18px;">St</span>
+              <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-weight: 700; font-size: 16px; color: #2a2436;">Streaming wideo</span>
+                  <span style="font-size: 11.5px; font-weight: 700; color: oklch(0.55 0.14 30); background: oklch(0.68 0.16 30 / 0.13); padding: 3px 9px; border-radius: 999px;">● Ograniczana</span>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-size: 12.5px; color: #6a6456; background: #f6f1e9; padding: 4px 10px; border-radius: 8px;">↕ Limit 15 Mb/s</span>
+                  <span style="font-size: 12.5px; color: #6a6456; background: #f6f1e9; padding: 4px 10px; border-radius: 8px;">🕑 18:00–23:00</span>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12.5px;"><span style="color: #8f8778;">teraz</span><span style="font-family: 'Space Grotesk'; font-weight: 700; color: oklch(0.55 0.14 30);">15,0 / 15 Mb/s</span></div>
+                <div style="height: 9px; border-radius: 999px; background: #f0e9df; overflow: hidden;"><div style="height: 100%; width: 100%; border-radius: 999px; background: oklch(0.68 0.16 30); animation: barPulse 1.8s ease-in-out infinite;"></div></div>
+              </div>
+            </div>
+
+            <!-- card: game -->
+            <div style="background: #fff; border: 1px solid #f0e9df; border-radius: 16px; padding: 18px 20px; display: grid; grid-template-columns: 48px 1fr 210px; align-items: center; gap: 18px;">
+              <span style="width: 48px; height: 48px; border-radius: 13px; background: oklch(0.62 0.16 300); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700; font-size: 18px;">Gr</span>
+              <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-weight: 700; font-size: 16px; color: #2a2436;">Gra online</span>
+                  <span style="font-size: 11.5px; font-weight: 700; color: oklch(0.55 0.13 150); background: oklch(0.55 0.13 150 / 0.12); padding: 3px 9px; border-radius: 999px;">● Aktywna</span>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-size: 12.5px; color: #6a6456; background: #f6f1e9; padding: 4px 10px; border-radius: 8px;">↕ Limit 10 Mb/s</span>
+                  <span style="font-size: 12.5px; color: #6a6456; background: #f6f1e9; padding: 4px 10px; border-radius: 8px;">🕑 16:00–22:00</span>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12.5px;"><span style="color: #8f8778;">teraz</span><span style="font-family: 'Space Grotesk'; font-weight: 700; color: #2a2436;">8,1 / 10 Mb/s</span></div>
+                <div style="height: 9px; border-radius: 999px; background: #f0e9df; overflow: hidden;"><div style="height: 100%; width: 81%; border-radius: 999px; background: oklch(0.62 0.16 300);"></div></div>
+              </div>
+            </div>
+
+            <!-- card: updates (asleep) -->
+            <div style="background: #fbf8f3; border: 1px solid #f0e9df; border-radius: 16px; padding: 18px 20px; display: grid; grid-template-columns: 48px 1fr 210px; align-items: center; gap: 18px; opacity: 0.72;">
+              <span style="width: 48px; height: 48px; border-radius: 13px; background: #c9c1b3; display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700; font-size: 18px;">Ak</span>
+              <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-weight: 700; font-size: 16px; color: #2a2436;">Aktualizacje systemu</span>
+                  <span style="font-size: 11.5px; font-weight: 700; color: #8f8778; background: #efe9df; padding: 3px 9px; border-radius: 999px;">● Uśpiona</span>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <span style="font-size: 12.5px; color: #6a6456; background: #f0e9df; padding: 4px 10px; border-radius: 8px;">↕ Limit 2 Mb/s</span>
+                  <span style="font-size: 12.5px; color: #6a6456; background: #f0e9df; padding: 4px 10px; border-radius: 8px;">🕑 02:00–06:00 (poza)</span>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12.5px;"><span style="color: #8f8778;">teraz</span><span style="font-family: 'Space Grotesk'; font-weight: 700; color: #a49e93;">0,0 Mb/s</span></div>
+                <div style="height: 9px; border-radius: 999px; background: #f0e9df; overflow: hidden;"><div style="height: 100%; width: 0%; border-radius: 999px; background: #c9c1b3;"></div></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- history strip -->
+          <div style="background: #fff; border: 1px solid #f0e9df; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-weight: 700; font-size: 15px; color: #2a2436; font-family: 'Space Grotesk';">Historia — ostatnie 7 dni</span>
+              <span style="font-size: 12.5px; color: #8f8778;">Streaming najczęściej ograniczany</span>
+            </div>
+            <div style="display: flex; align-items: flex-end; gap: 12px; height: 76px;">
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:100%; height:38%; background: oklch(0.7 0.13 250 / 0.55); border-radius:6px;"></div><span style="font-size:11px; color:#a49e93;">Pn</span></div>
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:100%; height:54%; background: oklch(0.7 0.13 250 / 0.55); border-radius:6px;"></div><span style="font-size:11px; color:#a49e93;">Wt</span></div>
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:100%; height:42%; background: oklch(0.7 0.13 250 / 0.55); border-radius:6px;"></div><span style="font-size:11px; color:#a49e93;">Śr</span></div>
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:100%; height:70%; background: oklch(0.7 0.13 250 / 0.55); border-radius:6px;"></div><span style="font-size:11px; color:#a49e93;">Cz</span></div>
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:100%; height:88%; background: oklch(0.68 0.16 30); border-radius:6px;"></div><span style="font-size:11px; color:#a49e93;">Pt</span></div>
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:100%; height:100%; background: oklch(0.68 0.16 30); border-radius:6px;"></div><span style="font-size:11px; color:#a49e93;">Sb</span></div>
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;"><div style="width:100%; height:64%; background: oklch(0.7 0.13 250 / 0.55); border-radius:6px;"></div><span style="font-size:11px; color:#a49e93;">Nd</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ OPTION 1b — Chłodny dashboard ============ -->
+    <div id="1b" style="display: flex; flex-direction: column; gap: 16px; width: 960px;">
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 700; color: #fff; background: oklch(0.55 0.18 275); padding: 4px 11px; border-radius: 999px;">1b</span>
+        <span style="font-family: 'Space Grotesk'; font-size: 16px; font-weight: 600; color: #23202e;">Chłodny dashboard</span>
+        <span style="font-size: 13px; color: #8a86a0;">nawigacja boczna, tabela, gęstsze dane</span>
+      </div>
+
+      <div style="border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -24px rgba(30,25,60,0.4), 0 0 0 1px rgba(0,0,0,0.04); display: grid; grid-template-columns: 220px 1fr;">
+        <!-- sidebar -->
+        <div style="background: oklch(0.28 0.06 275); padding: 18px 16px; display: flex; flex-direction: column; gap: 22px;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span style="display: flex; gap: 6px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: #ff5f57;"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: #febc2e;"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: #28c840;"></span></span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 0 4px;">
+            <span style="width: 30px; height: 30px; border-radius: 9px; background: oklch(0.7 0.16 275); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700;">P</span>
+            <span style="font-family: 'Space Grotesk'; font-weight: 600; font-size: 15px; color: #fff;">Przepustnica</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; background: oklch(0.7 0.16 275 / 0.28); color: #fff; font-weight: 600; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:oklch(0.7 0.16 275);display:inline-block;"></span>Aplikacje</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;display:inline-block;"></span>Monitor na żywo</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;display:inline-block;"></span>Historia</div>
+            <div style="display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #b9b4d4; font-weight: 500; font-size: 14px;"><span style="width:16px;height:16px;border-radius:4px;background:#5a5480;display:inline-block;"></span>Ustawienia</div>
+          </div>
+          <div style="margin-top: auto; background: oklch(0.7 0.16 275 / 0.18); border: 1px solid oklch(0.7 0.16 275 / 0.3); border-radius: 12px; padding: 14px;">
+            <div style="font-size: 12px; color: #cfc9ea; font-weight: 600;">Wykorzystanie łącza</div>
+            <div style="font-family: 'Space Grotesk'; font-size: 22px; font-weight: 700; color: #fff; margin: 6px 0 8px;">39 / 100 Mb/s</div>
+            <div style="height: 7px; border-radius: 999px; background: rgba(255,255,255,0.14); overflow: hidden;"><div style="height:100%;width:39%;background: oklch(0.7 0.16 275);border-radius:999px;"></div></div>
+          </div>
+        </div>
+
+        <!-- content -->
+        <div style="padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+              <h2 style="margin: 0; font-family: 'Space Grotesk'; font-size: 22px; font-weight: 700; color: #201d33;">Aplikacje</h2>
+              <span style="font-size: 13px; color: #7d7898;">Zarządzaj limitami prędkości i godzinami działania</span>
+            </div>
+            <button style="display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer; background: oklch(0.55 0.18 275); color: #fff; font-family: 'Manrope'; font-weight: 700; font-size: 14px; padding: 11px 18px; border-radius: 11px;"><span style="font-size:17px;line-height:1;">+</span> Dodaj aplikację</button>
+          </div>
+
+          <!-- KPI -->
+          <div style="display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;">
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 14px 16px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Aplikacje</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700;color:#201d33;margin-top:3px;">5</div></div>
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 14px 16px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Teraz</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700;color:#201d33;margin-top:3px;">38,8<span style="font-size:12px;color:#a29dbc;"> Mb/s</span></div></div>
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 14px 16px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Ograniczane</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700;color:oklch(0.55 0.18 275);margin-top:3px;">2</div></div>
+            <div style="border: 1px solid #ece9f4; border-radius: 13px; padding: 14px 16px;"><div style="font-size:12px;color:#7d7898;font-weight:600;">Dziś</div><div style="font-family:'Space Grotesk';font-size:22px;font-weight:700;color:#201d33;margin-top:3px;">14,2<span style="font-size:12px;color:#a29dbc;"> GB</span></div></div>
+          </div>
+
+          <!-- table -->
+          <div style="border: 1px solid #ece9f4; border-radius: 14px; overflow: hidden;">
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr; gap: 12px; padding: 12px 18px; background: #f7f5fb; font-size: 12px; font-weight: 700; color: #7d7898; text-transform: uppercase; letter-spacing: 0.04em;">
+              <span>Aplikacja</span><span>Limit</span><span>Godziny</span><span>Teraz</span><span>Status</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7;">
+              <span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.7 0.13 250);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">Pg</span><span style="font-weight:600;color:#201d33;">Przeglądarka</span></span>
+              <span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">25 Mb/s</span>
+              <span style="font-size:13px;color:#5b5675;">cała doba</span>
+              <span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:#3a3550;">12,3 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:49%;background:oklch(0.7 0.13 250);border-radius:999px;"></span></span></span>
+              <span style="font-size:12px;font-weight:700;color:oklch(0.5 0.13 150);">● Aktywna</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7; background: oklch(0.55 0.18 275 / 0.05);">
+              <span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.68 0.16 30);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">St</span><span style="font-weight:600;color:#201d33;">Streaming wideo</span></span>
+              <span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">15 Mb/s</span>
+              <span style="font-size:13px;color:#5b5675;">18–23</span>
+              <span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:oklch(0.5 0.16 30);font-weight:600;">15,0 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:100%;background:oklch(0.68 0.16 30);border-radius:999px;animation:barPulse 1.8s ease-in-out infinite;"></span></span></span>
+              <span style="font-size:12px;font-weight:700;color:oklch(0.55 0.16 30);">● Ograniczana</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7;">
+              <span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.62 0.16 300);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">Gr</span><span style="font-weight:600;color:#201d33;">Gra online</span></span>
+              <span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">10 Mb/s</span>
+              <span style="font-size:13px;color:#5b5675;">16–22</span>
+              <span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:#3a3550;">8,1 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:81%;background:oklch(0.62 0.16 300);border-radius:999px;"></span></span></span>
+              <span style="font-size:12px;font-weight:700;color:oklch(0.5 0.13 150);">● Aktywna</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7;">
+              <span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:oklch(0.62 0.02 260);display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">Ck</span><span style="font-weight:600;color:#201d33;">Klient chmury</span></span>
+              <span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">5 Mb/s</span>
+              <span style="font-size:13px;color:#5b5675;">09–17</span>
+              <span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:#3a3550;">3,4 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:68%;background:oklch(0.62 0.02 260);border-radius:999px;"></span></span></span>
+              <span style="font-size:12px;font-weight:700;color:oklch(0.5 0.13 150);">● Aktywna</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2.2fr 1.1fr 1.2fr 1.6fr 1fr; gap: 12px; padding: 14px 18px; align-items: center; border-top: 1px solid #f1eef7; opacity: 0.6;">
+              <span style="display:flex;align-items:center;gap:11px;"><span style="width:34px;height:34px;border-radius:9px;background:#b8b3c9;display:grid;place-items:center;color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:13px;">Ak</span><span style="font-weight:600;color:#201d33;">Aktualizacje systemu</span></span>
+              <span style="font-family:'Space Grotesk';font-weight:600;color:#3a3550;">2 Mb/s</span>
+              <span style="font-size:13px;color:#5b5675;">02–06</span>
+              <span style="display:flex;flex-direction:column;gap:5px;"><span style="font-size:12.5px;font-family:'Space Grotesk';color:#8b86a3;">0,0 Mb/s</span><span style="height:6px;border-radius:999px;background:#eeebf6;overflow:hidden;"><span style="display:block;height:100%;width:0%;background:#b8b3c9;border-radius:999px;"></span></span></span>
+              <span style="font-size:12px;font-weight:700;color:#8b86a3;">● Uśpiona</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ OPTION 1c — Miętowy minimal ============ -->
+    <div id="1c" style="display: flex; flex-direction: column; gap: 16px; width: 820px;">
+      <div style="display: flex; align-items: baseline; gap: 12px;">
+        <span style="font-family: 'Space Grotesk'; font-size: 13px; font-weight: 700; color: #1c2b28; background: oklch(0.78 0.11 175); padding: 4px 11px; border-radius: 999px;">1c</span>
+        <span style="font-family: 'Space Grotesk'; font-size: 16px; font-weight: 600; color: #23202e;">Miętowy minimal</span>
+        <span style="font-size: 13px; color: #8a86a0;">dużo powietrza, duży monitor, spokojny akcent</span>
+      </div>
+
+      <div style="border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -24px rgba(20,50,45,0.32), 0 0 0 1px rgba(0,0,0,0.04);">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 15px 20px; border-bottom: 1px solid #eef2f1;">
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f57;"></span>
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #febc2e;"></span>
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #28c840;"></span>
+          <div style="flex:1;"></div>
+          <div style="display:flex;gap:6px;background:#f2f6f5;padding:4px;border-radius:10px;font-size:13px;font-weight:600;">
+            <span style="padding:6px 14px;border-radius:7px;background:#fff;color:#18332e;box-shadow:0 1px 2px rgba(0,0,0,0.06);">Aplikacje</span>
+            <span style="padding:6px 14px;border-radius:7px;color:#6d827d;">Monitor</span>
+            <span style="padding:6px 14px;border-radius:7px;color:#6d827d;">Historia</span>
+          </div>
+          <div style="flex:1;"></div>
+          <span style="width: 26px; height: 26px; border-radius: 8px; background: oklch(0.72 0.12 175); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700; font-size: 14px;">P</span>
+        </div>
+
+        <div style="padding: 34px 40px 40px; display: flex; flex-direction: column; gap: 30px;">
+          <!-- big monitor -->
+          <div style="display: flex; align-items: center; gap: 34px;">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <span style="font-size: 13.5px; font-weight: 600; color: #6d827d; letter-spacing: 0.02em;">Zużycie łącza teraz</span>
+              <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-family: 'Space Grotesk'; font-size: 58px; font-weight: 700; color: #14332d; line-height: 1;">38,8</span><span style="font-size: 18px; color: #8a9d98; font-weight: 600;">Mb/s</span></div>
+              <span style="font-size: 13.5px; color: #8a9d98;">z 100 Mb/s łącza · 2 aplikacje ograniczane</span>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 9px;">
+              <div style="height: 12px; border-radius: 999px; background: #eef2f1; overflow: hidden; display: flex;">
+                <div style="width: 12.3%; background: oklch(0.7 0.13 250);"></div>
+                <div style="width: 15%; background: oklch(0.68 0.16 30);"></div>
+                <div style="width: 8.1%; background: oklch(0.62 0.16 300);"></div>
+                <div style="width: 3.4%; background: oklch(0.72 0.12 175);"></div>
+              </div>
+              <div style="display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #6d827d;">
+                <span style="display:flex;align-items:center;gap:6px;"><span style="width:9px;height:9px;border-radius:2px;background:oklch(0.7 0.13 250);"></span>Przeglądarka</span>
+                <span style="display:flex;align-items:center;gap:6px;"><span style="width:9px;height:9px;border-radius:2px;background:oklch(0.68 0.16 30);"></span>Streaming</span>
+                <span style="display:flex;align-items:center;gap:6px;"><span style="width:9px;height:9px;border-radius:2px;background:oklch(0.62 0.16 300);"></span>Gra</span>
+                <span style="display:flex;align-items:center;gap:6px;"><span style="width:9px;height:9px;border-radius:2px;background:oklch(0.72 0.12 175);"></span>Chmura</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'Space Grotesk'; font-size: 17px; font-weight: 600; color: #14332d;">Aplikacje z limitem</span>
+            <button style="display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid oklch(0.72 0.12 175); cursor: pointer; background: oklch(0.72 0.12 175 / 0.12); color: oklch(0.42 0.09 175); font-family: 'Manrope'; font-weight: 700; font-size: 14px; padding: 10px 18px; border-radius: 999px;"><span style="font-size:16px;line-height:1;">+</span> Dodaj aplikację</button>
+          </div>
+
+          <!-- list rows -->
+          <div style="display: flex; flex-direction: column;">
+            <div style="display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 24px; padding: 16px 0; border-top: 1px solid #eef2f1;">
+              <div style="display: flex; align-items: center; gap: 14px;"><span style="width: 40px; height: 40px; border-radius: 11px; background: oklch(0.7 0.13 250); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700;">Pg</span><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:600;color:#14332d;font-size:15px;">Przeglądarka</span><span style="font-size:12.5px;color:#8a9d98;">Limit 25 Mb/s · cała doba</span></div></div>
+              <div style="font-family:'Space Grotesk';font-weight:600;color:#14332d;font-size:14px;text-align:right;min-width:96px;">12,3 Mb/s</div>
+              <div style="font-size:12px;font-weight:700;color:oklch(0.45 0.11 165);background:oklch(0.72 0.12 175 / 0.15);padding:5px 11px;border-radius:999px;">Aktywna</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 24px; padding: 16px 0; border-top: 1px solid #eef2f1;">
+              <div style="display: flex; align-items: center; gap: 14px;"><span style="width: 40px; height: 40px; border-radius: 11px; background: oklch(0.68 0.16 30); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700;">St</span><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:600;color:#14332d;font-size:15px;">Streaming wideo</span><span style="font-size:12.5px;color:#8a9d98;">Limit 15 Mb/s · 18:00–23:00</span></div></div>
+              <div style="font-family:'Space Grotesk';font-weight:600;color:oklch(0.5 0.16 30);font-size:14px;text-align:right;min-width:96px;">15,0 Mb/s</div>
+              <div style="font-size:12px;font-weight:700;color:oklch(0.5 0.16 30);background:oklch(0.68 0.16 30 / 0.13);padding:5px 11px;border-radius:999px;">Ograniczana</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 24px; padding: 16px 0; border-top: 1px solid #eef2f1;">
+              <div style="display: flex; align-items: center; gap: 14px;"><span style="width: 40px; height: 40px; border-radius: 11px; background: oklch(0.62 0.16 300); display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700;">Gr</span><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:600;color:#14332d;font-size:15px;">Gra online</span><span style="font-size:12.5px;color:#8a9d98;">Limit 10 Mb/s · 16:00–22:00</span></div></div>
+              <div style="font-family:'Space Grotesk';font-weight:600;color:#14332d;font-size:14px;text-align:right;min-width:96px;">8,1 Mb/s</div>
+              <div style="font-size:12px;font-weight:700;color:oklch(0.45 0.11 165);background:oklch(0.72 0.12 175 / 0.15);padding:5px 11px;border-radius:999px;">Aktywna</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 24px; padding: 16px 0; border-top: 1px solid #eef2f1; opacity: 0.62;">
+              <div style="display: flex; align-items: center; gap: 14px;"><span style="width: 40px; height: 40px; border-radius: 11px; background: #c3cecb; display: grid; place-items: center; color: #fff; font-family: 'Space Grotesk'; font-weight: 700;">Ak</span><div style="display:flex;flex-direction:column;gap:2px;"><span style="font-weight:600;color:#14332d;font-size:15px;">Aktualizacje systemu</span><span style="font-size:12.5px;color:#8a9d98;">Limit 2 Mb/s · 02:00–06:00</span></div></div>
+              <div style="font-family:'Space Grotesk';font-weight:600;color:#8a9d98;font-size:14px;text-align:right;min-width:96px;">0,0 Mb/s</div>
+              <div style="font-size:12px;font-weight:700;color:#7c8f8a;background:#eef2f1;padding:5px 11px;border-radius:999px;">Uśpiona</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

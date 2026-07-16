@@ -1,0 +1,52 @@
+:root {
+  --color-accent: oklch(0.55 0.18 275);
+  --color-accent-light: oklch(0.7 0.16 275);
+  --color-sidebar-bg: oklch(0.28 0.06 275);
+
+  --color-text-primary: #201d33;
+  --color-text-secondary: #7d7898;
+  --color-text-secondary-2: #5b5675;
+  --color-text-muted: #a29dbc;
+
+  --color-card-border: #ece9f4;
+  --color-row-border: #f1eef7;
+  --color-table-header-bg: #f7f5fb;
+  --color-track-bg: #eeebf6;
+
+  --color-status-ok: oklch(0.5 0.13 150);
+  --color-status-throttled: oklch(0.55 0.16 30);
+  --color-status-sleeping: #8b86a3;
+
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+
+  --radius-window: 18px;
+  --radius-card: 14px;
+  --radius-control: 11px;
+  --shadow-window: 0 30px 60px -24px rgba(30, 25, 60, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  background: #e7e5f0;
+}
+
+button {
+  font-family: var(--font-body);
+}
+
+@keyframes barPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}

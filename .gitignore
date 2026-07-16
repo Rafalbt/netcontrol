@@ -1,0 +1,21 @@
+# Node / frontend
+node_modules/
+ui/dist/
+
+# Rust / Tauri
+ui/src-tauri/target/
+ui/src-tauri/gen/schemas/
+
+# .NET
+bin/
+obj/
+
+# Build artifacts
+dist/
+installer/*.msi
+installer/*.wixpdb
+
+# Misc
+*.log
+Thumbs.db
+.claude/
