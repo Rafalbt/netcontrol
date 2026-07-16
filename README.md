@@ -81,7 +81,7 @@ Kluczowe decyzje techniczne:
 ## Instalacja (MSI)
 
 1. Zbuduj instalator (patrz [Budowanie instalatora](#budowanie-instalatora)) albo weź gotowy
-   `installer/Przepustnica-0.1.0.msi`.
+   `installer/Przepustnica-0.1.1.msi`.
 2. Uruchom MSI (podwójny klik) i potwierdź UAC.
 
 Instalator:
@@ -93,7 +93,7 @@ Instalator:
 - wspiera aktualizacje: nowszy MSI (ten sam UpgradeCode) sam odinstaluje starą wersję.
 
 **Odinstalowanie:** Ustawienia → Aplikacje → Przepustnica → Odinstaluj
-(albo `msiexec /x Przepustnica-0.1.0.msi`). Usługa jest zatrzymywana i wyrejestrowywana.
+(albo `msiexec /x Przepustnica-0.1.1.msi`). Usługa jest zatrzymywana i wyrejestrowywana.
 Dane w `%ProgramData%\Przepustnica` **zostają** — usuń ręcznie, jeśli chcesz wyczyścić
 historię i reguły.
 
@@ -177,7 +177,7 @@ Jednym poleceniem (buduje UI w release, publikuje usługę self-contained, skła
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File installer\build-installer.ps1
-# wynik: installer\Przepustnica-0.1.0.msi
+# wynik: installer\Przepustnica-0.1.1.msi
 ```
 
 Kroki wykonywane pod spodem (gdyby trzeba było ręcznie):
@@ -186,7 +186,7 @@ Kroki wykonywane pod spodem (gdyby trzeba było ręcznie):
 cd ui && npm run tauri build -- --no-bundle          # → ui\src-tauri\target\release\ui.exe
 cd service\PrzepustnicaService
 dotnet publish -c Release -r win-x64 --self-contained true -o ..\..\dist\service
-cd installer && wix build Przepustnica.wxs -arch x64 -o Przepustnica-0.1.0.msi
+cd installer && wix build Przepustnica.wxs -arch x64 -o Przepustnica-0.1.1.msi
 ```
 
 Uwagi:

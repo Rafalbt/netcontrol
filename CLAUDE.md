@@ -81,7 +81,7 @@ The `.dc.html` prototype runs entirely in-browser:
 - **Service** (`service/PrzepustnicaService/`): `dotnet build`; `dotnet run` for dev console mode. Must run **elevated** or the ETW kernel session fails (the service degrades to zero counters but keeps serving IPC). Data lives in `%ProgramData%\Przepustnica\przepustnica.db`.
 - **UI** (`ui/`): `npm run tauri dev` (needs `cargo` on PATH — in Git Bash it's at `~/.cargo/bin` but not on PATH by default); frontend-only typecheck+build: `npm run build`.
 - **Throttling PoC** (`throttle-poc/`): `dotnet run -- <processName> <rateMbps>`, elevated.
-- **Installer** (`installer/`): `powershell -File build-installer.ps1` → `Przepustnica-0.1.0.msi` (UI + service, service auto-registers with autostart). Service publish is **self-contained win-x64** (no .NET runtime needed on target); the wxs harvest must stay recursive — `dist/service/amd64/KernelTraceControl.dll` is required for ETW.
+- **Installer** (`installer/`): `powershell -File build-installer.ps1` → `Przepustnica-0.1.1.msi` (UI + service, service auto-registers with autostart). Service publish is **self-contained win-x64** (no .NET runtime needed on target); the wxs harvest must stay recursive — `dist/service/amd64/KernelTraceControl.dll` is required for ETW.
 - **Service as Windows Service**: `dotnet publish -c Release -r win-x64 --self-contained true -o dist/service`, then `service/install-service.ps1` (elevated).
 - Prototype: open `Przepustnica.dc.html` directly in a browser.
 

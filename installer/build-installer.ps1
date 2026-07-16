@@ -25,8 +25,8 @@ try {
 Write-Host "[3/3] MSI (wix build)..."
 Push-Location $PSScriptRoot
 try {
-    wix build Przepustnica.wxs -arch x64 -o Przepustnica-0.1.0.msi
+    wix build Przepustnica.wxs -arch x64 -o Przepustnica-0.1.1.msi
     if ($LASTEXITCODE -ne 0) { throw "wix build failed" }
 } finally { Pop-Location }
 
-Write-Host "OK -> $PSScriptRoot\Przepustnica-0.1.0.msi"
+Write-Host "OK -> $PSScriptRoot\Przepustnica-0.1.1.msi"
