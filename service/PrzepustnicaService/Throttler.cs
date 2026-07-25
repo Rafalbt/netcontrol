@@ -11,9 +11,15 @@ public sealed record ThrottleStats(long DelayedBytes, long DroppedBytes, long Pa
 // Etap 2 (PLAN_WDROZENIA_WINDOWS.md §4): real limit enforcement, evolved from
 // the validated throttle-poc. One WinDivert handle captures inbound TCP/UDP at
 // the Network layer; packets whose destination port belongs to a rule's
-// process are paced with a GCRA-style virtual scheduler (delayed, not
-// dropped). A rule that is enabled but outside its schedule window drops its
-// process's inbound packets — the real "Uśpiona".
+// process are paced with a GCRA-style virtual scheduler backed by a bounded
+// queue: small overshoots are delayed, but once the virtual queue exceeds a
+// shallow ceiling (~250 ms) further packets are dropped — a policer. This is
+// deliberate: a pure delayer let the schedule run away under a link-saturating
+// app (e.g. Steam's many parallel connections), inducing an RTO/retransmit
+// spiral that collapsed throughput to a few KB/s. Dropping past a shallow queue
+// is what a real bottleneck link does and is what makes TCP settle at the
+// target rate. A rule that is enabled but outside its schedule window drops all
+// its process's inbound packets — the real "Uśpiona".
 //
 // Port -> PID resolution is event-driven: a second WinDivert handle at the
 // Socket layer (sniff, recv-only) reports bind/connect/accept/close with the
@@ -164,11 +170,27 @@ public sealed class Throttler : BackgroundService
             return;
         }
 
-        // GCRA virtual scheduler (same as throttle-poc): each packet reserves
+        // GCRA virtual scheduler + bounded-queue policer. Each packet reserves
         // a service slot; departures serialize at the configured rate instead
         // of every packet independently computing a small delay and then
         // bursting out together.
+        //
+        // Critical: the queue MUST be bounded. A pure delayer let NextFreeTicks
+        // (only clamped from below by the burst floor) run away whenever the
+        // arrival rate exceeded the limit — trivially true for an app like
+        // Steam that saturates the link across many parallel connections. The
+        // per-packet delay then grew without bound (ms -> seconds), the
+        // sender's RTO fired, retransmits were themselves captured and paced
+        // (adding more service time -> more delay: positive feedback), and TCP
+        // congestion control halved cwnd every RTT until throughput collapsed
+        // to a few KB/s. A real bottleneck link has a finite queue and DROPS
+        // when full; that drop is the clean signal that makes TCP settle at the
+        // target rate. So past a shallow queue ceiling we drop (fast retransmit,
+        // not RTO storm) and, crucially, do NOT advance NextFreeTicks — the slot
+        // is not consumed, so the enforced rate stays exactly at the limit.
+        var maxQueueTicks = (long)(0.25 * Stopwatch.Frequency); // ~250 ms tail
         TimeSpan delay;
+        bool drop = false;
         lock (runtime.PacerLock)
         {
             var now = Stopwatch.GetTimestamp();
@@ -177,14 +199,33 @@ public sealed class Throttler : BackgroundService
             if (runtime.NextFreeTicks < floor) runtime.NextFreeTicks = floor;
 
             var delayTicks = Math.Max(0, runtime.NextFreeTicks - now);
-            delay = delayTicks > 0
-                ? TimeSpan.FromSeconds(delayTicks / (double)Stopwatch.Frequency)
-                : TimeSpan.Zero;
 
-            if (delayTicks > 0) Interlocked.Add(ref runtime.DelayedBytes, length);
+            if (delayTicks > maxQueueTicks)
+            {
+                // Queue full: drop as a policer would. NextFreeTicks is left
+                // untouched so the rate holds at the limit instead of climbing.
+                delay = TimeSpan.Zero;
+                drop = true;
+            }
+            else
+            {
+                delay = delayTicks > 0
+                    ? TimeSpan.FromSeconds(delayTicks / (double)Stopwatch.Frequency)
+                    : TimeSpan.Zero;
 
-            var serviceTicks = (long)(length / runtime.BytesPerSecond * Stopwatch.Frequency);
-            runtime.NextFreeTicks = Math.Max(now, runtime.NextFreeTicks) + serviceTicks;
+                if (delayTicks > 0) Interlocked.Add(ref runtime.DelayedBytes, length);
+
+                var serviceTicks = (long)(length / runtime.BytesPerSecond * Stopwatch.Frequency);
+                runtime.NextFreeTicks = Math.Max(now, runtime.NextFreeTicks) + serviceTicks;
+            }
+        }
+
+        if (drop)
+        {
+            Interlocked.Add(ref runtime.DroppedBytes, length);
+            packet.Dispose();
+            address.Dispose();
+            return;
         }
 
         if (delay == TimeSpan.Zero)
